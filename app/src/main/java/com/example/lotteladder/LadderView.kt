@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -142,10 +141,8 @@ class LadderView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val resultReplace = resultString.split(',')
 
             // Circle 찍힐 좌표값 계산
-            var drawX : Float = startX + (resultReplace[cnt].trim().substring(2,3).toFloat() * rungSpacing)
-            var drawY : Float = 55 + (resultReplace[cnt].trim().substring(0,1).toFloat() * rungHeight)
-            Log.d("drawX","$drawX")
-            Log.d("drawY","$drawY")
+            val drawX : Float = startX + (resultReplace[cnt].trim().substring(2,3).toFloat() * rungSpacing)
+            val drawY : Float = 55 + (resultReplace[cnt].trim().substring(0,1).toFloat() * rungHeight)
             canvas.drawCircle(
                 drawX,
                 drawY - 5,
@@ -163,7 +160,6 @@ class LadderView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 ing = true
-                Log.d("ing","$ing")
                 val totalWidth = (participants - 1) * rungSpacing
                 val touchX = event.x
                 val startX = (width - totalWidth) / 2.5
@@ -172,7 +168,6 @@ class LadderView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 result.clear()
 
                 if (selectedParticipant in 0 until participants) {
-                    Log.d("Selected Participant", "참여자 $selectedParticipant 선택됨")
                     var x = 0
                     var t = selectedParticipant
                     val data = mutableListOf<String>()
@@ -194,7 +189,6 @@ class LadderView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     data.add("${x+1}.$t")
                     data.add("${x+2}.$t")
                     result.add(data)
-                    Log.d("boomNumber","$boomNumber")
                     GlobalScope.launch(Dispatchers.Default) {
                         repeat(data.size){
                             invalidate()
